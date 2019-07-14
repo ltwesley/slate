@@ -46,6 +46,7 @@ curl -X GET "http://localhost:5000/new_rpm_session"
 ```
 
 Requests to the **RPM Native** API requires a RPM session token in the header - `X-RPM-Session-Token`.
+
 `/new_rpm_session` API endpoint will return such token.
 
 The token will expire after ?? mins
@@ -139,16 +140,16 @@ Attn | string |
 }
 ```
 
-Parameter | Type | Default | Description
---------- | ---- | ------- | -----------
-AddressUsageId | | |
-AddressUsageType | | |
-Address | Object | |
-AddressVerified | boolean | |
-ReturnedMail | | |
-HoldMail | | |
-InCareOf | | |
-GeneralDeliveryPOBox | | |
+Parameter | Type |  Description
+--------- | ---- |  -----------
+AddressUsageId | | 
+AddressUsageType | |
+Address | Object | 
+AddressVerified | boolean |
+ReturnedMail | |
+HoldMail | |
+InCareOf | |
+GeneralDeliveryPOBox | |
 
 ## Agent
 
@@ -227,6 +228,14 @@ Region | string |
 
 Parameter | Type | Description
 --------- | ---- | -----------
+BankAccountId | |
+Bank | |
+Transit | |
+Account | |
+Name | |
+Status | |
+Description | Object |
+
 
 ## ClientBankAccountUsage
 
@@ -269,7 +278,14 @@ Parameter | Type | Description
 
 Parameter | Type | Description
 --------- | ---- | -----------
-
+ClientBankAccountUsageId| | 
+Status | | 
+BaseCurrency | | 
+VerificationStatus | | 
+BankAccountType | | 
+AllPlanAccounts | | 
+BankAccount | object | 
+PlanBankAccountUsages | object | list or single object 
 
 ## Title
 
