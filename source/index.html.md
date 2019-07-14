@@ -17,10 +17,6 @@ The `RPM Wrapper` API is organized around REST. It accepts form-encoded request 
 
 # Authentication
 
-Access to the `RPM Wrapper` API expects a Basic Auth header to be included in all API requests to the server that looks like the following:
-
-`authorization: Basic YXBwd2F5OkNpZnVuZHMxMjM=`
-
 > Example of an authorize request:
 
 ```shell
@@ -28,11 +24,11 @@ curl -X GET "http://localhost:5000/new_rpm_session"
   -H "authorization: Basic YXBwd2F5OkNpZnVuZHMxMjM="
 ```
 
-# RPM Session Token
-Requests to the **RPM Native** API requires a RPM session token in the header `X-RPM-Session-Token`.
-`/new_rpm_session` API endpoint will return such token.
+Access to the `RPM Wrapper` API expects a Basic Auth header to be included in all API requests to the server that looks like the following:
 
-The token will expire after 20 mins ??
+`authorization: Basic YXBwd2F5OkNpZnVuZHMxMjM=`
+
+# RPM Session Token
 
 ```shell
 # Request for a RPM Session Token. Username is required in the Header
@@ -48,25 +44,100 @@ curl -X GET "http://localhost:5000/new_rpm_session"
   "RpmSessionToken": "295810190713-1006842051-100003828599"
 }
 ```
+
+Requests to the **RPM Native** API requires a RPM session token in the header - `X-RPM-Session-Token`.
+`/new_rpm_session` API endpoint will return such token.
+
+The token will expire after ?? mins
+
 # RPM Objects
+
+## Alias
+
+> Example
+
+```javascript
+{
+  "AliasId": "1759000",
+  "AliasType": "0",
+  "First": "John E. H",
+  "Last": "Smith",
+  "Title": {
+    "Code": "MR",
+    "DescriptionText": "Mr.",
+    "EsgTitle": "1",
+    "Language": "0",
+    "Status": "0",
+    "TitleId": "1000002"
+  }
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+AliasId | |  
+AliasType | |  
+Title | object |  
+First | |  
+Last | |  
+Middle | |  
+Suffix | | 
 
 ## Address
 
-Parameter | Type | Default | Description
---------- | ---- | ------  | -----------
-AddressId | integer | |
-Addr1 | string | |
-Addr2 | string | |
-Addr3 | string | |
-City | string | |
-Province| string | |
-Country | string | |
-Postal | string | |
-Status | | |
-Attn | string | |
+> Example
+
+```javascript
+{
+  "Addr1": "123 York st",
+  "AddressId": "4328684",
+  "City": "Toronto",
+  "Country": "1000039",
+  "Postal": "H4A2M9",
+  "Province": "1000011",
+  "Status": "0"
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+AddressId | integer |
+Addr1 | string | 
+Addr2 | string | 
+Addr3 | string | 
+City | string |
+Province| number  |
+Country | number |
+Postal | string |
+Status | number |
+Attn | string |
 
 
 ## AddressUsage
+
+> Example 
+
+```javascript
+{
+    "Address": {
+      "Addr1": "123",
+      "AddressId": "4328684",
+      "City": "456",
+      "Country": "1000039",
+      "Postal": "H4A2M9",
+      "Province": "1000011",
+      "Status": "0"
+    },
+    "AddressUsageId": "2184510",
+    "AddressUsageType": "1000111",
+    "AddressVerified": "true",
+    "ExcludeFromExtract": "false",
+    "GeneralDeliveryPOBox": "false",
+    "HoldMail": "false",
+    "InCareOf": "false",
+    "ReturnedMail": "false",
+}
+```
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
@@ -80,6 +151,44 @@ InCareOf | | |
 GeneralDeliveryPOBox | | |
 
 ## Agent
+
+> Example 
+
+```javascript
+"Agent": {
+  "AgentId": "1012401",
+  "Branch": "4003",
+  "BranchDescription": {
+    "DescriptionId": "2449249",
+    "English": "Dorval 1",
+    "French": "Dorval 1",
+  },
+  "Code": "2398",
+  "Dealer": "9721",
+  "DealerDescription": {
+    "DescriptionId": "1000713",
+    "English": "Assante Capital Management Ltd.",
+    "French": "Gestion de capital Assante ltée",
+  },
+  "DealerId": "1000001",
+  "Email": "SelChaer@assante.com / AArgento@Assante.com",
+  "FirstName": "Sam El-Chaer",
+  "Internal": "true",
+  "LastName": "and Alex Argento",
+  "Phone": {
+    "PhoneId": "1795518",
+    "PhoneNo": "8325100",
+    "RouteCode": "514",
+    "Status": "0"
+  },
+  "Region": "003",
+  "RegionDescription": {
+    "English": "ACM Eastern Canada",
+    "French": "GCA Canada du Est"
+  },
+  "Status": "0",
+},
+```
 
 Parameter | Type | Description
 --------- | ---- |  -----------
@@ -98,48 +207,93 @@ Email | string |
 Phone | Object | 
 Region | string |  
 
-```javascript
-"Agent": {
-  "AgentId": "1012401",
-  "Branch": "4003",
-  "BranchDescription": {
-    "DescriptionId": "2449249",
-    "English": "Dorval 1",
-    "French": "Dorval 1",
-    "RowVer": "4"
-  },
-  "Code": "2398",
-  "CustodianSettlement": "1",
-  "Dealer": "9721",
-  "DealerDescription": {
-    "DescriptionId": "1000713",
-    "English": "Assante Capital Management Ltd.",
-    "French": "Gestion de capital Assante ltée",
-    "RowVer": "1"
-  },
-  "DealerId": "1000001",
-  "Email": "SelChaer@assante.com / AArgento@Assante.com",
-  "FirstName": "Sam El-Chaer",
-  "Internal": "true",
-  "LastName": "and Alex Argento",
-  "MandatoryKYCFields": "false",
-  "Phone": {
-    "PhoneId": "1795518",
-    "PhoneNo": "8325100",
-    "RouteCode": "514",
-    "RowVer": "0",
-    "Status": "0"
-  },
-  "Region": "003",
-  "RegionDescription": {
-    "English": "ACM Eastern Canada",
-    "French": "GCA Canada du Est"
-  },
-  "Status": "0",
-  "UsePOSFundFactsDelivery": "false",
-  "UserSuppliedKYC": "false"
-},
+## BankAccount
+
+> Example
+
+```json
+{
+    "Account": "0",
+    "Bank": "000",
+    "BankAccountId": "1288597",
+    "Description": {
+        "DescriptionId": "18338647",
+    },
+    "Name": "My Bank",
+    "Status": "0",
+    "Transit": "00000"
+}
 ```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+
+## ClientBankAccountUsage
+
+> Example 
+
+```json
+{
+    "AllPlanAccounts": "false",
+    "BankAccount": {
+      "Account": "0",
+      "Bank": "000",
+      "BankAccountId": "1288597",
+      "Description": {
+        "DescriptionId": "18338647",
+      },
+      "Name": "My Bank",
+      "Status": "0",
+      "Transit": "00000"
+    },
+    "BankAccountType": "0",
+    "BaseCurrency": "1000001",
+    "ClientBankAccountUsageId": "1263793",
+    "PlanBankAccountUsages": {
+      "AvailableFor": "true",
+      "GroupPlan": "false",
+      "InTrustFor": "false",
+      "LockedIn": "false",
+      "PlanAccount": {
+        "AccountNo": "96084515NO",
+        "Company": "9721",
+        "UsPlanAccountKeyId": "7467243"
+      },
+      "PlanBankAccountUsageId": "4723741",
+      "Spousal": "false"
+    },
+    "Status": "0",
+    "VerificationStatus": "1"
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+
+
+## Title
+
+> Example
+
+```javascript
+{
+    "Code": "MR",
+    "DescriptionText": "Mr.",
+    "EsgTitle": "1",
+    "Language": "0",
+    "Status": "0",
+    "TitleId": "1000002"
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+Code | |  
+DescriptionText | |  
+EsTtitle | |  
+Language | |  
+Status | |  
+TitleId | | 
 
 # API Endpoints
 
