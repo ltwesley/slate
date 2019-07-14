@@ -1,12 +1,6 @@
 ---
 title: API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
-
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
@@ -19,53 +13,135 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+The `RPM Wrapper` API is organized around REST. It accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
 # Authentication
 
-> To authorize, use this code:
+Access to the `RPM Wrapper` API expects a Basic Auth header to be included in all API requests to the server that looks like the following:
 
-```ruby
-require 'kittn'
+`authorization: Basic YXBwd2F5OkNpZnVuZHMxMjM=`
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+> Example of an authorize request:
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl -X GET "http://localhost:5000/new_rpm_session" 
+  -H "authorization: Basic YXBwd2F5OkNpZnVuZHMxMjM="
+```
+
+# RPM Session Token
+Requests to the **RPM Native** API requires a RPM session token in the header `X-RPM-Session-Token`.
+`/new_rpm_session` API endpoint will return such token.
+
+The token will expire after 20 mins ??
+
+```shell
+# Request for a RPM Session Token. Username is required in the Header
+curl -X GET "http://localhost:5000/new_rpm_session" 
+  -H "accept: application/json" 
+  -H "authorization: Basic YXBwd2F5OkNpZnVuZHMxMjM="
+  -H "X-User-ID: dsmith" 
 ```
 
 ```javascript
-const kittn = require('kittn');
+# Sample Response 
+{
+  "RpmSessionToken": "295810190713-1006842051-100003828599"
+}
+```
+# RPM Objects
 
-let api = kittn.authorize('meowmeowmeow');
+## Address
+
+Parameter | Type | Default | Description
+--------- | ---- | ------  | -----------
+AddressId | integer | |
+Addr1 | string | |
+Addr2 | string | |
+Addr3 | string | |
+City | string | |
+Province| string | |
+Country | string | |
+Postal | string | |
+Status | | |
+Attn | string | |
+
+
+## AddressUsage
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+AddressUsageId | | |
+AddressUsageType | | |
+Address | Object | |
+AddressVerified | boolean | |
+ReturnedMail | | |
+HoldMail | | |
+InCareOf | | |
+GeneralDeliveryPOBox | | |
+
+## Agent
+
+Parameter | Type | Description
+--------- | ---- |  -----------
+AgentId | number | 
+Branch | number | 
+BranchDescription | | 
+Code | number |  
+Dealer | Object?Number |
+DealerDescription | Object | 
+DealerId | number |  
+FirstName | string |
+LastName | string | 
+Status | number |  
+UserSuppliedKYC | boolean | 
+Email | string |
+Phone | Object | 
+Region | string |  
+
+```javascript
+"Agent": {
+  "AgentId": "1012401",
+  "Branch": "4003",
+  "BranchDescription": {
+    "DescriptionId": "2449249",
+    "English": "Dorval 1",
+    "French": "Dorval 1",
+    "RowVer": "4"
+  },
+  "Code": "2398",
+  "CustodianSettlement": "1",
+  "Dealer": "9721",
+  "DealerDescription": {
+    "DescriptionId": "1000713",
+    "English": "Assante Capital Management Ltd.",
+    "French": "Gestion de capital Assante ltée",
+    "RowVer": "1"
+  },
+  "DealerId": "1000001",
+  "Email": "SelChaer@assante.com / AArgento@Assante.com",
+  "FirstName": "Sam El-Chaer",
+  "Internal": "true",
+  "LastName": "and Alex Argento",
+  "MandatoryKYCFields": "false",
+  "Phone": {
+    "PhoneId": "1795518",
+    "PhoneNo": "8325100",
+    "RouteCode": "514",
+    "RowVer": "0",
+    "Status": "0"
+  },
+  "Region": "003",
+  "RegionDescription": {
+    "English": "ACM Eastern Canada",
+    "French": "GCA Canada du Est"
+  },
+  "Status": "0",
+  "UsePOSFundFactsDelivery": "false",
+  "UserSuppliedKYC": "false"
+},
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
+# API Endpoints
 
 ## Get All Kittens
 
