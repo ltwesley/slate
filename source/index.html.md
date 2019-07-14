@@ -2,8 +2,7 @@
 title: API Reference
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='/'>Swagger</a>
 
 includes:
   - errors
@@ -11,7 +10,7 @@ includes:
 search: true
 ---
 
-# Introduction
+# RPM Wrapper API
 
 The `RPM Wrapper` API is organized around REST. It accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
@@ -51,7 +50,11 @@ Requests to the **RPM Native** API requires a RPM session token in the header - 
 
 The token will expire after ?? mins
 
-# RPM Objects
+# RPM WEB Objects
+
+The native RPM API have properties that only applies to their desktop application and for internal use.
+
+The definitions provided in this section contains a subset of these properties that the ` RPM Wrapper` API is sending back.
 
 ## Alias
 
@@ -287,6 +290,73 @@ AllPlanAccounts | |
 BankAccount | object | 
 PlanBankAccountUsages | object | list or single object 
 
+## Description
+
+> Example
+
+```javascript
+{
+    "DescriptionId": 4324,
+    "English": "",
+    "French": ""
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+DescriptionId | number |
+English | string |
+French | string |
+
+## PlanAccount
+
+Note: The native RPM object has 130 properties. We are only returning a small subset... which needs to be finalize.
+> Example
+
+```javascript
+{
+    "AccountNo": "96084515NO",
+    "Company": "9721",
+    "UsPlanAccountKeyId": "7467243"
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+AccountNo | string |
+Company | string |
+UsPlanAccountKeyId | number |
+
+## PlanAccountUsage
+
+> Example
+
+```javascript
+{
+  "AvailableFor": "true",
+  "GroupPlan": "false",
+  "InTrustFor": "false",
+  "LockedIn": "false",
+  "PlanAccount": {
+    "AccountNo": "96084515NO",
+    "Company": "9721",
+    "UsPlanAccountKeyId": "7467243"
+  },
+  "PlanBankAccountUsageId": "4723741",
+  "Spousal": "false"
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+PlanAccountUsageId: number |
+AvailableFor | boolean |
+GroupPlan | boolean |
+InTrustFor | boolean |
+LockedIn | boolean |
+PlanAccount | Object |
+Spousal | boolean |
+
 ## Title
 
 > Example
@@ -310,6 +380,22 @@ EsTtitle | |
 Language | |  
 Status | |  
 TitleId | | 
+
+<!--
+## Template
+
+> Example
+
+```javascript
+{
+    
+}
+```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+
+-->
 
 # API Endpoints
 
